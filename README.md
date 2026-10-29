@@ -9,7 +9,6 @@ Speak into the mic and Aria answers out loud: browser speech recognition turns t
 caller's voice into text, and the reply is read back through speech synthesis. No
 telephony account, no phone number — the call runs entirely in the browser.
 
----
 
 ## The problem
 
@@ -225,4 +224,4 @@ carried over deliberately — the upgrade is the intelligence layer, not the use
 Apache 2.0 — see [LICENSE](LICENSE).
 
 
-Apache 2.0 — see [LICENSE](LICENSE).
+
