@@ -1,0 +1,16 @@
+{
+  "name": "calllens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Live call intelligence for support teams, powered by NVIDIA Nemotron on Nebius Token Factory.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "dev": "node --watch --env-file-if-exists=.env server.mjs",
+    "models": "node --env-file-if-exists=.env scripts/check-models.mjs"
+  }
+}
