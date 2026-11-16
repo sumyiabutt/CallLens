@@ -1,14 +1,18 @@
 # CallLens
+
 **Live call intelligence for support teams — three NVIDIA Nemotron tiers, one live call.**
 
-
+Built for the [NVIDIA × Nebius Global AI Hackathon](https://nebius.ai) — *Best Apps and Agents* track.
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
+**[▶ Live demo — call-lens-live-call.vercel.app](https://call-lens-live-call.vercel.app)** · no sign-in required
 
 Speak into the mic and Aria answers out loud: browser speech recognition turns the
 caller's voice into text, and the reply is read back through speech synthesis. No
 telephony account, no phone number — the call runs entirely in the browser.
 
+---
 
 ## The problem
 
@@ -33,7 +37,9 @@ the thinking that a human would do after hanging up.
 A fourth, optional source: **Tavily** web search enriches the call when the caller
 mentions a company, so the agent is not limited to whatever was baked into the prompt.
 
-## What it looks like```text
+## What it looks like
+
+```text
 ┌──────────────────────────────────────────────┬──────────────────────┐
 │  Aria · In call                     [live]   │  LIVE ANALYSIS   nano│
 │                                              │  order_status        │
@@ -116,6 +122,40 @@ Check the backend at any time:
 ```bash
 curl http://localhost:3000/health
 ```
+
+## Live demo and integration
+
+The public demo runs as a **static site** on Vercel:
+
+**https://call-lens-live-call.vercel.app**
+
+A public page must never carry a Nebius API key, so the static build answers the API in
+the browser. `demo.js` wraps `window.fetch` and replies to `/health`, `/api/turn` and
+`/api/summary` from the same offline tier that mock mode uses (`mock.mjs` in this
+repository's flat layout), NDJSON stream included — so the console, the live-analysis
+rail and the post-call record all behave exactly as they do locally. If a real backend
+answers, `demo.js` steps aside and the page talks to it instead: one `index.html`, both
+deployments.
+
+| Layer | Live demo | Local run with a key |
+| --- | --- | --- |
+| Classification (Nano) | offline tier, in the browser | `nvidia/nemotron-3-nano` on Token Factory |
+| Streamed reply (Super) | offline tier, in the browser | `nvidia/nemotron-3-super`, SSE stream |
+| Call record (Ultra) | offline tier, in the browser | `nvidia/nemotron-3-ultra` |
+| Order and FAQ grounding | `data.mjs` | `data.mjs` |
+
+The badge in the top right always states the mode, so the demo never passes an offline
+reply off as a model reply.
+
+**How it is wired:** one Node HTTP server (`server.mjs`) routes `/api/turn`,
+`/api/summary` and `/health`; `nebius.mjs` is the only file that talks to Nebius,
+using the OpenAI-compatible `/chat/completions` endpoint with a model id per tier.
+`MOCK` turns the same routes into the offline tier when `NEBIUS_API_KEY` is missing, so
+the UI, the streaming path and the demo all work before credentials exist.
+
+**Vercel settings used:** framework preset **Other**, no build command, no output
+directory, **no environment variables** — the static files are served as they are. The
+two options below host the Node server instead, which is the route that can run live.
 
 ## Deploy a public demo
 
@@ -222,6 +262,3 @@ carried over deliberately — the upgrade is the intelligence layer, not the use
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
-
-
-
