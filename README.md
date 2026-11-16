@@ -74,7 +74,7 @@ flowchart LR
 ```
 
 Everything the agent says is grounded in approved order and FAQ records
-([`lib/data.mjs`](lib/data.mjs)). Anything outside those records is offered as a human
+([`data.mjs`](data.mjs)). Anything outside those records is offered as a human
 handoff instead of a guess — the same safety rule the Week 1 prototype enforced with
 hard-coded rules, now enforced with a system prompt.
 
@@ -188,24 +188,19 @@ Paste these in order — this is the script used in the demo video:
 
 ## Project layout
 
+This repository was uploaded flat (no folders), so every file below sits at the root:
+
 ```text
 server.mjs              HTTP server, NDJSON turn stream, summary endpoint, static files
-lib/nebius.mjs          Token Factory client (streaming + JSON parsing + modes)
-lib/prompts.mjs         the three system prompts — the actual product logic
-lib/mock.mjs            offline stand-in so the UI works without a key
-lib/data.mjs            approved (fictional) orders, hours and FAQs
-lib/tavily.mjs          optional web context, fails soft
-public/                 the console: index.html, styles.css, app.js
-scripts/check-models.mjs  prints model ids available to your key
-scripts/build_report.py   regenerates REPORT.docx from REPORT.md
-REPORT.md / REPORT.docx   the full written project report
-```
-
-To rebuild the report document:
-
-```bash
-pip install -r requirements-dev.txt
-python scripts/build_report.py
+nebius.mjs              Token Factory client (streaming + JSON parsing + modes)
+prompts.mjs             the three system prompts — the actual product logic
+mock.mjs                offline stand-in so the UI works without a key
+data.mjs                approved (fictional) orders, hours and FAQs
+tavily.mjs              optional web context, fails soft
+index.html, styles.css, app.js   the console
+demo.js                 browser-side API shim used by the static demo
+check-models.mjs        prints model ids available to your key
+build_report.py         report renderer (source REPORT.md is kept outside this repo)
 ```
 
 ## Design decisions
@@ -252,7 +247,7 @@ carried over deliberately — the upgrade is the intelligence layer, not the use
 ## Using NVIDIA and Nebius
 
 - **Nebius Token Factory** serves every model call, through its OpenAI-compatible
-  `/chat/completions` endpoint ([`lib/nebius.mjs`](lib/nebius.mjs)) — including
+  `/chat/completions` endpoint ([`nebius.mjs`](nebius.mjs)) — including
   streamed responses, which is what makes the console feel live.
 - **NVIDIA Nemotron** does all of the reasoning, split across three size classes so
   latency, quality and cost land where they belong.
