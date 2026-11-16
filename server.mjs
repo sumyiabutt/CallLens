@@ -3,13 +3,13 @@ import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { MOCK, MODELS, chat, chatStream, health, parseJSON } from './lib/nebius.mjs';
-import { mockClassify, mockReplyStream, mockSummary } from './lib/mock.mjs';
-import { classifyMessages, replyMessages, summaryMessages } from './lib/prompts.mjs';
-import { tavilyEnabled, webContext } from './lib/tavily.mjs';
+import { MOCK, MODELS, chat, chatStream, health, parseJSON } from './nebius.mjs';
+import { mockClassify, mockReplyStream, mockSummary } from './mock.mjs';
+import { classifyMessages, replyMessages, summaryMessages } from './prompts.mjs';
+import { tavilyEnabled, webContext } from './tavily.mjs';
 
 const PORT = Number(process.env.PORT || 3000);
-const PUBLIC_DIR = fileURLToPath(new URL('./public/', import.meta.url));
+const PUBLIC_DIR = fileURLToPath(new URL('./', import.meta.url));
 
 const EMPTY_ANALYSIS = {
   intent: 'unclear',
