@@ -2,8 +2,6 @@
 
 **Live call intelligence for support teams — three NVIDIA Nemotron tiers, one live call.**
 
-Built for the [NVIDIA × Nebius Global AI Hackathon](https://nebius.ai) — *Best Apps and Agents* track.
-
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 **[▶ Live demo — call-lens-live-call.vercel.app](https://call-lens-live-call.vercel.app)** · no sign-in required
